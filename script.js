@@ -5,20 +5,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const sky = document.getElementById('sky');
     const bgMusic = document.getElementById('bg-music');
 
+    let isMusicPlaying = false;
+
+    function playMusic() {
+        if (bgMusic && !isMusicPlaying) {
+            bgMusic.play().then(() => {
+                isMusicPlaying = true;
+            }).catch(error => {
+                console.log("Trình duyệt chặn autoplay, cần tương tác thêm:", error);
+            });
+        }
+    }
+
     // Mở thư khi bấm vào trái tim
-    heartSeal.addEventListener('click', () => {
+    heartSeal.addEventListener('click', (e) => {
         envelopeWrapper.classList.add('open');
         if (instruction) {
             instruction.style.opacity = '0';
         }
 
         // Phát nhạc
-        if (bgMusic) {
-            bgMusic.play().catch(error => {
-                console.log("Trình duyệt có thể chặn autoplay, người dùng cần tương tác thêm:", error);
-            });
-        }
+        playMusic();
+        
+        // Ngăn sự kiện lan truyền lên document
+        e.stopPropagation();
     });
+
+    // Fallback: kích hoạt nhạc nếu người dùng nhấn vào bất kỳ đâu trên trang
+    document.addEventListener('click', playMusic);
 
     // Tạo hiệu ứng trái tim bay lơ lửng xung quanh thay vì trái tim tĩnh
     function createFloatingHeart() {
