@@ -3,12 +3,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const envelopeWrapper = document.getElementById('envelope-wrapper');
     const instruction = document.getElementById('instruction');
     const sky = document.getElementById('sky');
+    const bgMusic = document.getElementById('bg-music');
 
     // Mở thư khi bấm vào trái tim
     heartSeal.addEventListener('click', () => {
         envelopeWrapper.classList.add('open');
         if (instruction) {
             instruction.style.opacity = '0';
+        }
+
+        // Phát nhạc
+        if (bgMusic) {
+            bgMusic.play().catch(error => {
+                console.log("Trình duyệt có thể chặn autoplay, người dùng cần tương tác thêm:", error);
+            });
         }
     });
 
